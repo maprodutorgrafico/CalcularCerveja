@@ -19,12 +19,15 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.11' # Usar Python 3.11 para evitar problemas com distutils, ou 3.12 se o buildozer-action for atualizado
+        python-version: '3.11' # Usar Python 3.11 para evitar problemas com distutils
 
     - name: Install Buildozer dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y git zip unzip openjdk-17-jdk python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev automake
+        # libtinfo5 foi substituído por libtinfo6 em versões mais recentes do Ubuntu (ex: 24.04 Noble)
+        sudo apt-get install -y git zip unzip openjdk-17-jdk python3-pip autoconf libtool \
+        pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo6 cmake libffi-dev \
+        libssl-dev automake
 
     - name: Install Buildozer
       run: pip install buildozer
