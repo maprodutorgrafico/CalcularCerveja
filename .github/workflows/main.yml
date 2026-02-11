@@ -1,47 +1,41 @@
-name: Build Kivy APK
+name: Build Signed APK
 
 on:
   push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+    branches: [ "main" ]
+  workflow_dispatch:  # 支持手动触发
 
 jobs:
-  build-apk:
-    runs-on: ubuntu-latest
-
+  build-android:
+    runs-on: ubuntu-22.04
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.11' # Usar Python 3.11 para evitar problemas com distutils
+      - name: Decode Keystore from Secrets
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > cerveja-keystore.jks
 
-    - name: Install Buildozer dependencies
-      run: |
-        sudo apt-get update
-        # libtinfo5 foi substituído por libtinfo6 em versões mais recentes do Ubuntu (ex: 24.04 Noble)
-        sudo apt-get install -y git zip unzip openjdk-17-jdk python3-pip autoconf libtool \
-        pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo6 cmake libffi-dev \
-        libssl-dev automake
+      - name: Build with Buildozer
+        uses: ArtemSBulgakov/buildozer-action@v1
+        id: buildozer
+        with:
+          workdir: .
+          buildozer_version: stable
+          command: buildozer -v android release
 
-    - name: Install Buildozer
-      run: pip install buildozer
+      - name: Sign APK
+        run: |
+          APK_PATH=$(find ./bin -name "*release-unsigned.apk" | head -n 1)
+          jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 \
+            -keystore cerveja-keystore.jks \
+            -storepass "${{ secrets.KEYSTORE_PASSWORD }}" \
+            -keypass "${{ secrets.KEY_PASSWORD }}" \
+            "$APK_PATH" "${{ secrets.KEY_ALIAS }}"
+          mv "$APK_PATH" "${APK_PATH/-unsigned/-signed}"
 
-    - name: Initialize Buildozer (if buildozer.spec doesn't exist)
-      run: buildozer init || true
-      working-directory: ./CalcularCerveja # Ajuste para o diretório do seu projeto Kivy
-
-    - name: Build Android APK
-      run: buildozer android debug
-      working-directory: ./CalcularCerveja # Ajuste para o diretório do seu projeto Kivy
-
-    - name: Upload APK artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: kivy-apk
-        path: ./CalcularCerveja/bin/*.apk # Ajuste para o diretório do seu projeto Kivy
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: signed-release-apk
+          path: ./bin/*-signed.apk
