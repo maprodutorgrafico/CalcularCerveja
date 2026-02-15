@@ -1,0 +1,29 @@
+{
+  "tipos_vasilhame": [
+    {
+      "id": 1,
+      "nome": "Latinha 269ml",
+      "volume_ml": 269,
+      "descricao": "Latinha tradicional"
+    },
+    {
+      "id": 2,
+      "nome": "Latinha 350ml",
+      "volume_ml": 350,
+      "descricao": "Lata padrão"
+    },
+    {
+      "id": 3,
+      "nome": "Garrafa 600ml",
+      "volume_ml": 600,
+      "descricao": "Garrafa long neck"
+    },
+    {
+      "id": 4,
+      "nome": "Garrafa 1L",
+      "volume_ml": 1000,
+      "descricao": "Garrafa de 1 litro"
+    }
+  ],
+  "precos_cerveja": []
+}

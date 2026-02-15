@@ -1,0 +1,9 @@
+cerveja-calculator-json/
+├── index.html
+├── cadastro.html
+├── style.css
+├── script.js
+├── dados.json
+└── .github/
+    └── workflows/
+        └── build-apk.yml

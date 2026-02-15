@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Cadastrar Vasilhame</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🍺 Cadastrar Vasilhame</h1>
+            <div class="nav-buttons">
+                <a href="index.html" class="btn btn-primary">Calculadora</a>
+                <a href="cadastro.html" class="btn btn-success">Cadastrar</a>
+            </div>
+        </div>
+        
+        <div id="mensagem" style="display: none;"></div>
+        
+        <div class="card">
+            <h2>Novo Vasilhame</h2>
+            
+            <div class="form-group">
+                <label for="nome">Nome do Vasilhame:*</label>
+                <input type="text" id="nome" class="form-control" 
+                       placeholder="Ex: Long Neck 355ml" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="volume">Volume (ml):*</label>
+                <input type="number" id="volume" class="form-control" 
+                       placeholder="Ex: 355" min="1" step="1" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="descricao">Descrição:</label>
+                <textarea id="descricao" class="form-control" 
+                          rows="3" placeholder="Descrição opcional do vasilhame"></textarea>
+            </div>
+            
+            <button onclick="salvarVasilhame()" class="btn btn-success" style="width: 100%;">Cadastrar</button>
+        </div>
+        
+        <div class="card">
+            <h2>Vasilhames Cadastrados</h2>
+            <div id="lista-vasilhames" class="tabela-vasilhames">
+                <!-- Será preenchido via JavaScript -->
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

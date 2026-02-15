@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Calculadora de Cerveja</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🍺 Calculadora de Cerveja</h1>
+            <div class="nav-buttons">
+                <a href="index.html" class="btn btn-primary">Calculadora</a>
+                <a href="cadastro.html" class="btn btn-success">Cadastrar Vasilhame</a>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>Calcular Preços</h2>
+            
+            <div class="grid-2">
+                <div>
+                    <div class="form-group">
+                        <label for="marca">Marca da Cerveja:</label>
+                        <input type="text" id="marca" class="form-control" placeholder="Ex: Brahma, Skol, Antarctica...">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="tipo_vasilhame">Tipo de Vasilhame:</label>
+                        <select id="tipo_vasilhame" class="form-control">
+                            <option value="">Carregando...</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="volume">Volume (ml):</label>
+                        <input type="number" id="volume" class="form-control" placeholder="Ex: 350" min="1" step="1" readonly>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="preco">Preço (R$):</label>
+                        <input type="number" id="preco" class="form-control" placeholder="Ex: 3.60" min="0" step="0.01">
+                    </div>
+                    
+                    <button onclick="calcularPrecos()" class="btn btn-success" style="width: 100%;">Calcular</button>
+                    
+                    <div style="margin-top: 15px;">
+                        <button onclick="salvarPreco()" class="btn btn-primary" style="width: 100%;">Salvar este preço</button>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="resultados">
+                        <h3>Preço por Litro</h3>
+                        <div class="destaque" id="preco-litro">R$ 0,00</div>
+                        
+                        <h3 style="margin-top: 20px;">Caixinhas</h3>
+                        
+                        <div class="resultado-item">
+                            <span>Caixinha com 12:</span>
+                            <span class="resultado-valor" id="caixinha12-preco">R$ 0,00</span>
+                            <span id="caixinha12-litros">0L</span>
+                        </div>
+                        
+                        <div class="resultado-item">
+                            <span>Caixinha com 15:</span>
+                            <span class="resultado-valor" id="caixinha15-preco">R$ 0,00</span>
+                            <span id="caixinha15-litros">0L</span>
+                        </div>
+                        
+                        <div class="resultado-item">
+                            <span>Caixinha com 18:</span>
+                            <span class="resultado-valor" id="caixinha18-preco">R$ 0,00</span>
+                            <span id="caixinha18-litros">0L</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>Tipos de Vasilhame</h2>
+            <div id="lista-vasilhames" class="tabela-vasilhames">
+                <!-- Será preenchido via JavaScript -->
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>Últimos Preços Salvos</h2>
+            <div id="ultimos-precos">
+                <!-- Será preenchido via JavaScript -->
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
