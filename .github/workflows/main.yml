@@ -31,24 +31,19 @@ jobs:
       
       - name: Configurar Capacitor para arquivos locais
         run: |
-          npx cap init "Calculadora Cerveja" "com.cerveja.calculadora"
+          npx cap init "Calculadora Cerveja" "com.cerveja.calculadora" --web-dir=.
           
-          # Configurar para usar arquivos locais (não precisa de servidor)
+          # Configurar para usar arquivos locais
           echo '{
             "appId": "com.cerveja.calculadora",
             "appName": "Calculadora Cerveja",
             "webDir": ".",
-            "bundledWebRuntime": false,
-            "server": {
-              "url": "http://localhost",
-              "cleartext": true
-            }
+            "bundledWebRuntime": false
           }' > capacitor.config.json
           
           npx cap add android
-          
-          # Copiar arquivos para o projeto Android
           npx cap copy
+          npx cap sync
       
       - name: Build APK
         run: |
