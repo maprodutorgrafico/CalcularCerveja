@@ -1,58 +1,36 @@
-name: Build APK com WebView
+name: Build APK
 
-on:
-  push:
-    branches: [ main ]
-  workflow_dispatch:
+on: [push]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    
     steps:
-      - name: Checkout do código
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
       
-      - name: Setup Java JDK
+      - name: Setup Java
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: '17'
-      
-      - name: Setup Node.js
+          
+      - name: Setup Node
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-      
-      - name: Instalar Capacitor
+          
+      - name: Build with Capacitor
         run: |
           npm init -y
-          npm install @capacitor/core @capacitor/cli @capacitor/android
-      
-      - name: Configurar Capacitor para arquivos locais
-        run: |
-          npx cap init "Calculadora Cerveja" "com.cerveja.calculadora" --web-dir=.
-          
-          # Configurar para usar arquivos locais
-          echo '{
-            "appId": "com.cerveja.calculadora",
-            "appName": "Calculadora Cerveja",
-            "webDir": ".",
-            "bundledWebRuntime": false
-          }' > capacitor.config.json
-          
+          npm i @capacitor/core @capacitor/cli @capacitor/android
+          npx cap init CalculadoraCerveja com.cerveja.app --web-dir=.
           npx cap add android
           npx cap copy
-          npx cap sync
-      
-      - name: Build APK
-        run: |
           cd android
-          chmod +x gradlew
           ./gradlew assembleDebug
-      
+          
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: cerveja-calculator-app
+          name: app
           path: android/app/build/outputs/apk/debug/app-debug.apk
